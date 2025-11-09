@@ -1,10 +1,9 @@
-```markdown
+
 # Flutter Project - Clean Architecture dengan Riverpod
 
 Aplikasi Flutter yang dikembangkan dengan **Clean Architecture** dan **Riverpod** sebagai state management utama. Struktur berbasis fitur untuk kode yang modular dan mudah dikembangkan.
 
 ## 📁 Struktur Folder
-
 ```
 lib/
 ├── features/           # Modul berbasis fitur
