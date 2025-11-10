@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'router.dart';
+import 'theme/app_theme.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MoobazirApp()));
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MoobazirSellerApp(),
+    ),
+  );
 }
 
-class MoobazirApp extends StatelessWidget {
-  const MoobazirApp({super.key});
+class MoobazirSellerApp extends StatelessWidget {
+  const MoobazirSellerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Moobazir',
-      theme: ThemeData(useMaterial3: true),
-      routerConfig: router,
+      title: 'Moobazir Seller',
+      theme: AppTheme.lightTheme,
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
     );
   }

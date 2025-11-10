@@ -1,14 +1,36 @@
-import 'package:moobazir_user/features/auth/domain/entities/user_entity.dart';
+class AuthModel {
+  final String email;
+  final String password;
 
-class UserModel extends UserEntity {
-  UserModel({required super.id, required super.name, required super.email});
+  AuthModel({required this.email, required this.password});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'password': password,
+    };
+  }
+}
+
+class UserModel {
+  final String id;
+  final String email;
+  final String name;
+  final String role;
+
+  UserModel({
+    required this.id,
+    required this.email,
+    required this.name,
+    required this.role,
+  });
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'].toString(),
-      name: json['name'] ?? '',
+      id: json['id'] ?? '',
       email: json['email'] ?? '',
+      name: json['name'] ?? '',
+      role: json['role'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {"id": id, "name": name, "email": email};
 }
