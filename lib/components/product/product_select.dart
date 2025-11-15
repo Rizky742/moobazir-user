@@ -21,7 +21,7 @@ class CustomSegmentedControl extends StatelessWidget {
         return GestureDetector(
           onTap: () => onSelected(index),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xFF94A83D) : Colors.white,
@@ -31,7 +31,8 @@ class CustomSegmentedControl extends StatelessWidget {
             child: Text(
               items[index],
               style: TextStyle(
-                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
                 color: isSelected ? Colors.white : const Color(0xFF94A83D),
               ),
             ),
