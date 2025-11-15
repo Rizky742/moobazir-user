@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moobazir_user/components/product/product_card.dart';
 import 'package:moobazir_user/components/product/product_select.dart';
 import 'package:moobazir_user/theme/app_theme.dart';
@@ -59,7 +60,9 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                   height: 36,
                   width: 36,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/add_product');
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
                       backgroundColor: Colors.orange,

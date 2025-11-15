@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moobazir_user/components/navigation_bar.dart';
 import 'package:moobazir_user/features/home/presentation/home_screen.dart';
+import 'package:moobazir_user/features/products/add_product_screen.dart';
 import 'package:moobazir_user/features/products/products_screen.dart';
 import 'theme/app_theme.dart';
 
@@ -24,6 +25,10 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/products',
           builder: (context, state) => const ProductsScreen(),
+        ),
+        GoRoute(
+          path: '/add_product',
+          builder: (context, state) => const AddProductsScreen(),
         ),
       ],
     ),
