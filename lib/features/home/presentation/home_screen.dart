@@ -10,10 +10,7 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'Home',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF3B4500),
         centerTitle: true,

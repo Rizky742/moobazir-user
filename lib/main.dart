@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'router.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moobazir_user/components/navigation_bar.dart';
+import 'package:moobazir_user/features/home/presentation/home_screen.dart';
 import 'theme/app_theme.dart';
 
-void main() {
-  runApp(
-    const ProviderScope(
-      child: MoobazirSellerApp(),
+// State untuk tab aktif
+final selectedIndexProvider = StateProvider<int>((ref) => 0);
+
+final appRouter = GoRouter(
+  initialLocation: '/home',
+  routes: [
+    ShellRoute(
+      builder: (context, state, child) {
+        return Scaffold(
+          body: child,
+          bottomNavigationBar: const AnimatedNavigationBar(),
+        );
+      },
+      routes: [
+        GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      ],
     ),
-  );
+  ],
+);
+
+void main() {
+  runApp(const ProviderScope(child: MoobazirSellerApp()));
 }
 
 class MoobazirSellerApp extends StatelessWidget {
