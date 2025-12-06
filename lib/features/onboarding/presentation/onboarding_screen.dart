@@ -1,74 +1,135 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class OnboardingScreen extends ConsumerWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
 
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  int _currentIndex = 0;
+
+  final List<Map<String, String>> onboardingData = const [
+    {
+      'image': 'assets/images/splash_icon_1.png',
+      'title': 'Save Food, Save Money',
+      'subtitle':
+          'Temukan makanan berkualitas dengan harga hemat dari restoran di sekitar Anda.',
+    },
+    {
+      'image': 'assets/images/splash_icon_2.png',
+      'title': 'Find Deals Near You',
+      'subtitle':
+          'Lihat makanan surplus dari lokasi terdekat dan ambil langsung di toko.',
+    },
+    {
+      'image': 'assets/images/splash_icon_3.png',
+      'title': 'Reduce Food Waste Together',
+      'subtitle': 'Setiap pesanan membantu mengurangi sampah makanan dan emisi karbon.',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255), 
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              const SizedBox(height: 90),
-              Center(
-                child: Image.asset(
-                  'assets/images/onboarding_assets.png',
-                  height: 300,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 40),
-              // Title
-              Text.rich(
-                TextSpan(
+              const SizedBox(height: 150),
+              Expanded(
+                child: Column(
                   children: [
-                    const TextSpan(text: 'Selamat datang di '),
-                    TextSpan(
-                      text: 'Moobazir',
-                      style: TextStyle(
-                        color: const Color(0xFFE0B100), // warna kuning oranye khas logo
-                        fontWeight: FontWeight.w700,
+                    CarouselSlider.builder(
+                      itemCount: onboardingData.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final data = onboardingData[index];
+                        return Column(
+                          children: [
+                            Image.asset(
+                              data['image']!,
+                              height: 250,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:
+                                  onboardingData.asMap().entries.map((entry) {
+                                    return Container(
+                                      width: 10,
+                                      height: 10,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            _currentIndex == entry.key
+                                                ? const Color(0xFF3B4500)
+                                                : const Color(0xFFC4C4C4),
+                                      ),
+                                    );
+                                  }).toList(),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              data['title']!,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.titleLarge?.copyWith(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFF3B4500),
+                                height: 1.4,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              data['subtitle']!,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(
+                                color: const Color(0xFF768351),
+                                fontSize: 14,
+                                height: 1.5,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      options: CarouselOptions(
+                        height: 500,
+                        enlargeCenterPage: true,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 1.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
                       ),
                     ),
-                    const TextSpan(text: ' Seller'),
+                    const SizedBox(height: 16),
                   ],
                 ),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF3B4500), // hijau tua
-                      height: 1.4,
-                    ),
               ),
-              const SizedBox(height: 8),
-
-              // Subtitle
-              Text(
-                'Kelola makanan surplus Anda dan ubah jadi peluang bisnis & keberlanjutan',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: const Color(0xFF768351),
-                      fontSize: 14,
-                      height: 1.5,
-                    ),
-              ),
-              const Spacer(),
-
-              // Buttons
+              // const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
                     onPressed: () => context.go('/login'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF3B4500), // hijau tua
+                      backgroundColor: const Color(0xFF3B4500),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -87,14 +148,17 @@ class OnboardingScreen extends ConsumerWidget {
                   OutlinedButton(
                     onPressed: () => context.go('/register'),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF3B4500), width: 1),
+                      side: const BorderSide(
+                        color: Color(0xFF3B4500),
+                        width: 1,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: const Text(
-                      'Buat Akun Penjual',
+                      'Buat Akun Sekarang',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
