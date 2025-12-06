@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFF2E8B57);
+  static const Color primaryColor = Color(0xFF8AA624);
   static const Color secondaryColor = Color(0xFFFFD700);
   static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color surfaceColor = Color(0xFFF8F9FA);
@@ -69,9 +69,7 @@ class AppTheme {
           backgroundColor: primaryColor,
           foregroundColor: onPrimaryColor,
           minimumSize: const Size(double.infinity, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
