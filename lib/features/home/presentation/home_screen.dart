@@ -1,171 +1,471 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moobazir_user/features/home/presentation/widgets/dashboard_card.dart';
-import 'package:moobazir_user/features/home/presentation/widgets/order_card.dart';
+import 'package:moobazir_user/theme/app_theme.dart';
 
-final orders = [
-  {
-    "title": "Nasi Campur Ayam Geprek",
-    "qty": 2,
-    "unit": "porsi",
-    "time": "09.45",
-    "status": "Menunggu",
-  },
-  {
-    "title": "Ayam Katsu Bento",
-    "qty": 1,
-    "unit": "porsi",
-    "time": "10.12",
-    "status": "Diproses",
-  },
-  {
-    "title": "Salad Buah",
-    "qty": 3,
-    "unit": "pack",
-    "time": "10.30",
-    "status": "Selesai",
-  },
-  {
-    "title": "Salad Buah",
-    "qty": 3,
-    "unit": "pack",
-    "time": "10.30",
-    "status": "Selesai",
-  },
-];
-
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFAFFEF),
+      backgroundColor: const Color(0xffF5F7E9),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 32),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Halo, Ikon AYCE",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xff384700),
-                        ),
-                      ),
-                      Text(
-                        'Yuk, selamatkan makanan lagi hari ini',
-                        style: TextStyle(color: Color(0xff8AA624)),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  const CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage('assets/profile_picture.png'),
-                  ),
-                ],
+        child: ListView(
+          padding: const EdgeInsets.only(left: 26, right: 26, top: 40),
+          children: [
+            _LocationAndSearch(),
+
+            SizedBox(height: 16),
+            _CategoryFilter(),
+
+            SizedBox(height: 20),
+            _NearestButton(),
+
+            SizedBox(height: 24),
+            Text(
+              "Makanan Surplus Terdekat",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
               ),
+            ),
 
-              const SizedBox(height: 36),
+            SizedBox(height: 16),
+            _ProductGrid(),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-              // GRID CARD
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1.3,
-                  children: const [
-                    DashboardCard(
-                      type: DashboardType.greenLight,
-                      title: "Produk Surplus Aktif",
-                      value: 8,
-                      background: Color(0xffEEF4D6),
+class _LocationAndSearch extends StatelessWidget {
+  const _LocationAndSearch();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Location
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Color(0xff4A5D23)),
+                SizedBox(width: 6),
+                Text(
+                  "Surabaya, Indonesia",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff4A5D23),
+                  ),
+                ),
+              ],
+            ),
+
+            Row(
+              children: [
+                Container(
+                  height: 36,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff4A5D23),
+                      width: 1.6,
                     ),
-                    DashboardCard(
-                      type: DashboardType.greenDark,
-                      background: Color(0xff384700),
-                      title: "Pesanan Hari Ini",
-                      value: 5,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    constraints: const BoxConstraints(),
+                    padding: EdgeInsets.zero,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.trolley,
+                      size: 20,
+                      color: Color(0xff4A5D23),
                     ),
-                    DashboardCard(
-                      type: DashboardType.greenDark,
-                      background: Color(0xff384700),
-                      title: "Pesanan Hari Ini",
-                      value: 5,
+                  ),
+                ),
+
+                Container(
+                  height: 36,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xff4A5D23),
+                      width: 1.6,
                     ),
-                    DashboardCard(
-                      type: DashboardType.greenLight,
-                      title: "Produk Surplus Aktif",
-                      value: 8,
-                      background: Color(0xffEEF4D6),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    constraints: const BoxConstraints(),
+                    padding: EdgeInsets.zero,
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.notifications_none,
+                      size: 20,
+                      color: Color(0xff4A5D23),
                     ),
-                  ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+
+        // Search Bar
+        Container(
+          decoration: BoxDecoration(
+            color: const Color(0xffEEF3D4),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: TextField(
+            decoration: InputDecoration(
+              icon: Icon(Icons.search, color: AppTheme.primaryColor),
+              hintText: "Cari produk surplus",
+              border: InputBorder.none,
+              hintStyle: TextStyle(
+                color: Colors.grey.shade700,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+              labelStyle: TextStyle(
+                color: Colors.grey.shade700,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CategoryFilter extends StatefulWidget {
+  const _CategoryFilter();
+
+  @override
+  State<_CategoryFilter> createState() => _CategoryFilterState();
+}
+
+class _CategoryFilterState extends State<_CategoryFilter> {
+  int activeIndex = 0;
+
+  final List<String> categories = [
+    "Terdekat",
+    "Kue",
+    "Restoran",
+    "Kafe",
+    "Siap Saji",
+    "Roti",
+    "Minuman",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(categories.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  activeIndex = index;
+                });
+              },
+              child: _FilterButton(
+                categories[index],
+                isActive: activeIndex == index,
+              ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}
+
+class _FilterButton extends StatelessWidget {
+  final String title;
+  final bool isActive;
+  const _FilterButton(this.title, {this.isActive = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      decoration: BoxDecoration(
+        color: isActive ? AppTheme.primaryColor : Colors.white,
+        border: Border.all(color: AppTheme.primaryColor),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: isActive ? Colors.white : AppTheme.primaryColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class _NearestButton extends StatelessWidget {
+  const _NearestButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        color: const Color(0xff4A5D23),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Icon(Icons.location_on, color: Colors.white, size: 20),
+          SizedBox(width: 10),
+          Text(
+            "Lihat Produk Surplus Terdekat Melalui Peta",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProductGrid extends StatelessWidget {
+  const _ProductGrid();
+
+  final List<Map<String, dynamic>> dummyProducts = const [
+    {
+      "title": "Croissant Coklat",
+      "store": "Morning Bakery",
+      "distance": "1.2 km",
+      "price": 8000,
+      "oldPrice": 15000,
+      "discount": "-60%",
+      "image": "assets/croissant.jpg",
+      "pcs": "4pcs",
+      "time": "20:30",
+    },
+    {
+      "title": "Chicken Bento",
+      "store": "Oishii Kitchen",
+      "distance": "2.5 km",
+      "price": 20000,
+      "oldPrice": 45000,
+      "discount": "-25%",
+      "image": "assets/bento.jpg",
+      "pcs": "1 pack",
+      "time": "19:45",
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: dummyProducts.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 14,
+        crossAxisSpacing: 14,
+        childAspectRatio: 0.62, // diperbaiki supaya tidak overflow
+      ),
+      itemBuilder: (context, index) {
+        final p = dummyProducts[index];
+        return ProductCard(
+          title: p["title"],
+          store: p["store"],
+          distance: p["distance"],
+          price: p["price"],
+          oldPrice: p["oldPrice"],
+          pcs: p["pcs"],
+          discount: p["discount"],
+          time: p["time"],
+          image: p["image"],
+        );
+      },
+    );
+  }
+}
+
+class ProductCard extends StatelessWidget {
+  final String title, store, distance, pcs, discount, time, image;
+  final int price, oldPrice;
+
+  const ProductCard({
+    super.key,
+    required this.title,
+    required this.store,
+    required this.distance,
+    required this.price,
+    required this.oldPrice,
+    required this.pcs,
+    required this.discount,
+    required this.time,
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // IMAGE
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
+                child: Container(
+                  height: 130,
+                  width: double.infinity,
+                  color: Colors.grey.shade300,
+                  child: Image.asset(image, fit: BoxFit.cover),
                 ),
               ),
 
-              // PESANAN TERBARU
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: const [
-                        Text(
-                          "Pesanan Terbaru",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff384700),
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          "Lihat Semua",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff8AA624),
-                          ),
-                        ),
-                      ],
+              // DISCOUNT
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    discount,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+              ),
 
-                    const SizedBox(height: 12),
-
-                    // CARD PESANAN
-                    Expanded(
-                      child: ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.only(top: 8),
-                        itemCount: orders.length, // contoh, nanti bisa diganti dynamic
-                        separatorBuilder: (_, __) => SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          final o = orders[index];
-                          return OrderCard(
-                            title: o["title"] as String,
-                            qty: o["qty"] as int,
-                            unit: o["unit"] as String,
-                            time: o["time"] as String,
-                            status: o["status"] as String,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+              // TIME
+              Positioned(
+                bottom: 8,
+                right: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    "Ambil sebelum $time",
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
                 ),
               ),
             ],
           ),
-        ),
+
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      pcs,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+
+                Text(
+                  store,
+                  style: const TextStyle(color: Colors.black54, fontSize: 12),
+                ),
+                Text(
+                  distance,
+                  style: const TextStyle(color: Colors.black45, fontSize: 11),
+                ),
+                const SizedBox(height: 6),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "IDR $oldPrice",
+                          style: const TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 11,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          "IDR $price",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff4A5D23),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
