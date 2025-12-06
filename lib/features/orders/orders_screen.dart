@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moobazir_user/components/order/order_card.dart';
-import 'package:moobazir_user/components/product/product_card.dart';
 import 'package:moobazir_user/components/product/product_select.dart';
 import 'package:moobazir_user/theme/app_theme.dart';
 

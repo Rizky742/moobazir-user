@@ -8,7 +8,6 @@ import 'package:moobazir_user/features/home/presentation/home_screen.dart';
 import 'package:moobazir_user/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:moobazir_user/features/orders/orders_screen.dart';
 import 'package:moobazir_user/features/products/add_product_screen.dart';
-import 'package:moobazir_user/features/products/products_screen.dart';
 import 'package:moobazir_user/features/profile/presentation/profile_screen.dart';
 import 'package:moobazir_user/features/splash/presentation/splash_screen.dart';
 import 'theme/app_theme.dart';
@@ -38,7 +37,7 @@ final appRouter = GoRouter(
       name: 'register',
       builder: (context, state) => const RegisterScreen(),
     ),
-    
+
     ShellRoute(
       builder: (context, state, child) {
         return Scaffold(
@@ -53,19 +52,14 @@ final appRouter = GoRouter(
           builder: (context, state) => const HomeScreen(),
         ),
         GoRoute(
-          path: '/products',
-          name: 'products',
-          builder: (context, state) => const ProductsScreen(),
-        ),
-        GoRoute(
-          path: '/add_product',
-          name: 'add_product',
-          builder: (context, state) => const AddProductsScreen(),
-        ),
-        GoRoute(
           path: '/orders',
           name: 'orders',
           builder: (context, state) => const OrdersScreen(),
+        ),
+        GoRoute(
+          path: '/contributions',
+          name: 'contributions',
+          builder: (context, state) => const AddProductsScreen(),
         ),
         GoRoute(
           path: '/profile',
