@@ -10,7 +10,9 @@ import 'package:moobazir_user/features/onboarding/presentation/onboarding_screen
 import 'package:moobazir_user/features/orders/orders_screen.dart';
 import 'package:moobazir_user/features/products/add_product_screen.dart';
 import 'package:moobazir_user/features/profile/presentation/profile_screen.dart';
+import 'package:moobazir_user/features/qr_order/qr_code_order_screen.dart';
 import 'package:moobazir_user/features/splash/presentation/splash_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'theme/app_theme.dart';
 
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
@@ -43,6 +45,13 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final id = state.pathParameters['id'];
         return ProductDetailPage(id: id!);
+      },
+    ),
+    GoRoute(
+      path: '/qr-order/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'];
+        return QrCodeOrderScreen(id: id!);
       },
     ),
 
@@ -80,7 +89,8 @@ final appRouter = GoRouter(
   ],
 );
 
-void main() {
+void main() async {
+  await initializeDateFormatting('id_ID', null);
   runApp(const ProviderScope(child: MoobazirSellerApp()));
 }
 

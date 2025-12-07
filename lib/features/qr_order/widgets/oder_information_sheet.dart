@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:moobazir_user/data/order_data.dart';
+import 'package:moobazir_user/theme/app_theme.dart';
 
-class ConfirmOrderSheet extends StatelessWidget {
+class OderInformationSheet extends StatelessWidget {
   final Map<String, dynamic> merchant;
   final Map<String, dynamic> product;
+  final Map<String, dynamic> order;
 
-  const ConfirmOrderSheet({
+  const OderInformationSheet({
     super.key,
     required this.merchant,
     required this.product,
+    required this.order,
   });
 
   @override
@@ -50,37 +52,12 @@ class ConfirmOrderSheet extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: Colors.red),
+                          border: Border.all(color: AppTheme.primaryColor),
                         ),
                         child: Text(
-                          "Batalkan",
+                          "Kembali",
                           style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).push('/qr-order/${orders[0]["id"]}');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Color(0xff4A5D23),
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: const Text(
-                          "Konfirmasi Pesanan",
-                          style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.primaryColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -107,11 +84,11 @@ class ConfirmOrderSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              "Konfirmasi Pesanan",
+              "Detail Pesanan",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: Icon(Icons.keyboard_arrow_up),
               onPressed: () => GoRouter.of(context).pop(),
             ),
           ],
@@ -119,7 +96,6 @@ class ConfirmOrderSheet extends StatelessWidget {
 
         const SizedBox(height: 20),
 
-        // Nama + PCS
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -142,7 +118,6 @@ class ConfirmOrderSheet extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Harga & Waktu Ambil
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -153,7 +128,7 @@ class ConfirmOrderSheet extends StatelessWidget {
                 Text(
                   "IDR ${formatter.format(product["price"])}",
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -166,7 +141,7 @@ class ConfirmOrderSheet extends StatelessWidget {
                 Text(
                   product["time"],
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -175,43 +150,47 @@ class ConfirmOrderSheet extends StatelessWidget {
           ],
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
 
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xffFEECDC),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xffF29B7F)),
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.error_outline, color: Color(0xffD9534F)),
-                  SizedBox(width: 8),
-                  Text(
-                    "Tidak perlu pembayaran online",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xffD9534F),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Status:"),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    "${order["status"]}",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.orange,
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                "Tunjukkan kode QR Anda saat mengambil pesanan",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: Color(0xffD9534F)),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text("Penjual:"),
+                Text(
+                  merchant["name"],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-
-        const SizedBox(height: 24),
       ],
     );
   }

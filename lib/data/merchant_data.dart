@@ -1,4 +1,4 @@
-final List<Map<String, dynamic>> merchant = [
+final List<Map<String, dynamic>> merchants = [
   {
     "id": "morning-bakery",
     "name": "Morning Bakery",
