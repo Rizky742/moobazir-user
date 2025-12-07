@@ -262,7 +262,7 @@ class _ProductGrid extends StatelessWidget {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: dummyProducts.length,
+      itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 14,
@@ -270,7 +270,7 @@ class _ProductGrid extends StatelessWidget {
         childAspectRatio: 0.62,
       ),
       itemBuilder: (context, index) {
-        final p = dummyProducts[index];
+        final p = products[index];
         return ProductCard(
           title: p["title"],
           store: p["store"],

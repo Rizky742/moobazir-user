@@ -13,7 +13,7 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = dummyProducts.firstWhere((p) => p["id"] == id);
+    final product = products.firstWhere((p) => p["id"] == id);
     final formatter = NumberFormat("#,###", "id_ID");
 
     return Scaffold(
@@ -79,7 +79,7 @@ class ProductDetailPage extends StatelessWidget {
                         const SizedBox(height: 24),
 
                         MerchantInfoCard(
-                          merchant: merchant.firstWhere(
+                          merchant: merchants.firstWhere(
                             (m) => m["id"] == product["merchantId"],
                           ),
                         ),
@@ -116,10 +116,6 @@ class ProductDetailPage extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        const SizedBox(height: 24),
-
-                        const SizedBox(height: 40),
                       ],
                     ),
                   ),
@@ -186,7 +182,7 @@ class ProductDetailPage extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   builder:
                       (_) => ConfirmOrderSheet(
-                        merchant: merchant.firstWhere(
+                        merchant: merchants.firstWhere(
                           (m) => m["id"] == product["merchantId"],
                         ),
                         product: product,
