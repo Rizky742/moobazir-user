@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moobazir_user/data/product_data.dart';
 import 'package:moobazir_user/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,7 +12,12 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: const Color(0xffF5F7E9),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.only(left: 26, right: 26, top: 40),
+          padding: const EdgeInsets.only(
+            left: 26,
+            right: 26,
+            top: 40,
+            bottom: 30,
+          ),
           children: [
             _LocationAndSearch(),
 
@@ -250,31 +257,6 @@ class _NearestButton extends StatelessWidget {
 class _ProductGrid extends StatelessWidget {
   const _ProductGrid();
 
-  final List<Map<String, dynamic>> dummyProducts = const [
-    {
-      "title": "Croissant Coklat",
-      "store": "Morning Bakery",
-      "distance": "1.2 km",
-      "price": 8000,
-      "oldPrice": 15000,
-      "discount": "-60%",
-      "image": "assets/croissant.jpg",
-      "pcs": "4pcs",
-      "time": "20:30",
-    },
-    {
-      "title": "Chicken Bento",
-      "store": "Oishii Kitchen",
-      "distance": "2.5 km",
-      "price": 20000,
-      "oldPrice": 45000,
-      "discount": "-25%",
-      "image": "assets/bento.jpg",
-      "pcs": "1 pack",
-      "time": "19:45",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -285,7 +267,7 @@ class _ProductGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 14,
         crossAxisSpacing: 14,
-        childAspectRatio: 0.62, // diperbaiki supaya tidak overflow
+        childAspectRatio: 0.62,
       ),
       itemBuilder: (context, index) {
         final p = dummyProducts[index];
@@ -299,6 +281,7 @@ class _ProductGrid extends StatelessWidget {
           discount: p["discount"],
           time: p["time"],
           image: p["image"],
+          onTap: () => GoRouter.of(context).go('/product/${p["id"]}'),
         );
       },
     );
@@ -308,6 +291,8 @@ class _ProductGrid extends StatelessWidget {
 class ProductCard extends StatelessWidget {
   final String title, store, distance, pcs, discount, time, image;
   final int price, oldPrice;
+
+  final VoidCallback? onTap;
 
   const ProductCard({
     super.key,
@@ -320,152 +305,153 @@ class ProductCard extends StatelessWidget {
     required this.discount,
     required this.time,
     required this.image,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // IMAGE
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(14),
-                ),
-                child: Container(
-                  height: 130,
-                  width: double.infinity,
-                  color: Colors.grey.shade300,
-                  child: Image.asset(image, fit: BoxFit.cover),
-                ),
-              ),
-
-              // DISCOUNT
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    discount,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-
-              // TIME
-              Positioned(
-                bottom: 8,
-                right: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    "Ambil sebelum $time",
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(14),
+                  ),
+                  child: Container(
+                    height: 130,
+                    width: double.infinity,
+                    color: Colors.grey.shade300,
+                    child: Image.asset(image, fit: BoxFit.cover),
+                  ),
+                ),
+
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
                     ),
-                    Text(
-                      pcs,
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      discount,
                       style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                        fontSize: 10,
                       ),
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 2),
 
-                Text(
-                  store,
-                  style: const TextStyle(color: Colors.black54, fontSize: 12),
-                ),
-                Text(
-                  distance,
-                  style: const TextStyle(color: Colors.black45, fontSize: 11),
-                ),
-                const SizedBox(height: 6),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "IDR $oldPrice",
-                          style: const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 11,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text(
-                          "IDR $price",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff4A5D23),
-                          ),
-                        ),
-                      ],
+                Positioned(
+                  bottom: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 3,
                     ),
-                  ],
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      "Ambil sebelum $time",
+                      style: const TextStyle(color: Colors.white, fontSize: 10),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        pcs,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+
+                  Text(
+                    store,
+                    style: const TextStyle(color: Colors.black54, fontSize: 12),
+                  ),
+                  Text(
+                    distance,
+                    style: const TextStyle(color: Colors.black45, fontSize: 11),
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "IDR $oldPrice",
+                            style: const TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "IDR $price",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xff4A5D23),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

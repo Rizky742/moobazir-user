@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:moobazir_user/components/navigation_bar.dart';
 import 'package:moobazir_user/features/auth/presentation/login_screen.dart';
 import 'package:moobazir_user/features/auth/presentation/register_screen.dart';
+import 'package:moobazir_user/features/detail_product/detail_product_screen.dart';
 import 'package:moobazir_user/features/home/presentation/home_screen.dart';
 import 'package:moobazir_user/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:moobazir_user/features/orders/orders_screen.dart';
@@ -37,6 +38,13 @@ final appRouter = GoRouter(
       name: 'register',
       builder: (context, state) => const RegisterScreen(),
     ),
+    GoRoute(
+      path: '/product/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id'];
+        return ProductDetailPage(id: id!);
+      },
+    ),
 
     ShellRoute(
       builder: (context, state, child) {
@@ -61,6 +69,7 @@ final appRouter = GoRouter(
           name: 'contributions',
           builder: (context, state) => const AddProductsScreen(),
         ),
+
         GoRoute(
           path: '/profile',
           name: 'profile',
