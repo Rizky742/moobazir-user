@@ -5,8 +5,9 @@ import 'package:moobazir_user/theme/app_theme.dart';
 class OrderCard extends ConsumerWidget {
   final String productName;
   final int quantity;
+  final String unit;
   final int price;
-  final String customerName;
+  final String shopName;
   final String time;
   final String status;
   final VoidCallback onDetailTap;
@@ -17,7 +18,8 @@ class OrderCard extends ConsumerWidget {
     required this.productName,
     required this.quantity,
     required this.price,
-    required this.customerName,
+    required this.unit,
+    required this.shopName,
     required this.time,
     required this.status,
     required this.onDetailTap,
@@ -26,18 +28,31 @@ class OrderCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Color getStatusColor(String status) {
+  switch (status) {
+    case "Siap Diambil":
+      return Color(0xff00A500); // hijau
+    case "Menunggu":
+      return Color(0xffFEA405); // oranye
+    case "Selesai":
+      return Color(0xff1D2500); // coklat gelap
+    default:
+      return Colors.grey;
+  }
+}
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.yellowAccent.withOpacity(0.1),
+        color: Color(0xffFAFFEF),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 4),
+            color: Color(0xff1D2500).withOpacity(0.24),
+            spreadRadius: 0,
+            blurRadius: 8,
+            offset: Offset(1, 2),
           ),
         ],
       ),
@@ -55,14 +70,14 @@ class OrderCard extends ConsumerWidget {
                     "x$quantity  ",
                     style: const TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    productName,
+                    unit,
                     style: const TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
@@ -72,53 +87,46 @@ class OrderCard extends ConsumerWidget {
               GestureDetector(
                 onTap: onStatusTap,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
+                  width: 30,
+                  height: 30,
                   decoration: BoxDecoration(
-                    color: const Color(0xffFFEFC7),
-                    borderRadius: BorderRadius.circular(6),
+                    color: const Color(0xffFEA405),
+                    borderRadius: BorderRadius.circular(100),
                   ),
-                  child: Row(
-                    children: [
-                      Text(
-                        status,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xffA48832),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 16,
-                        color: Color(0xffA48832),
-                      ),
-                    ],
+                  child: Center(
+                    child: Icon(
+                      Icons.qr_code,
+                      color: AppTheme.onPrimaryColor,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-
           const SizedBox(height: 4),
-
           // PRICE
           Text(
-            "IDR ${price.toString().replaceAll('.', ',')}",
+            productName,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
               color: AppTheme.onSurfaceColor,
             ),
           ),
+          // Text(
+          //   "IDR ${price.toString().replaceAll('.', ',')}",
+          //   style: TextStyle(
+          //     fontSize: 18,
+          //     fontWeight: FontWeight.w800,
+          //     color: AppTheme.onSurfaceColor,
+          //   ),
+          // ),
 
-          const SizedBox(height: 16),
+          // const SizedBox(height: 16),
 
           Text(
-            customerName,
+            shopName,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -133,16 +141,23 @@ class OrderCard extends ConsumerWidget {
             children: [
               GestureDetector(
                 onTap: onDetailTap,
-                child: const Text(
-                  "Lihat detail",
-                  style: TextStyle(fontSize: 12, color: Colors.orange),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: getStatusColor(status).withOpacity(0.24) 
+                  ),
+                  child:  Text(
+                    "Siap Diambil",
+                    style: TextStyle(fontSize: 12, color: getStatusColor(status)),
+                  ),
                 ),
               ),
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text("Waktu pesanan:", style: TextStyle(fontSize: 12)),
+                  const Text("Ambil Sebelum:", style: TextStyle(fontSize: 12)),
                   Text(
                     time,
                     style: const TextStyle(
