@@ -5,6 +5,7 @@ import 'package:moobazir_user/components/navigation_bar.dart';
 import 'package:moobazir_user/features/auth/presentation/login_screen.dart';
 import 'package:moobazir_user/features/auth/presentation/register_screen.dart';
 import 'package:moobazir_user/features/detail_product/detail_product_screen.dart';
+import 'package:moobazir_user/features/find_shop/find_shop.dart';
 import 'package:moobazir_user/features/home/presentation/home_screen.dart';
 import 'package:moobazir_user/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:moobazir_user/features/orders/orders_screen.dart';
@@ -39,6 +40,11 @@ final appRouter = GoRouter(
       path: '/register',
       name: 'register',
       builder: (context, state) => const RegisterScreen(),
+    ),
+     GoRoute(
+      path: '/find_shop',
+      name: 'find shop',
+      builder: (context, state) =>  FindShop(),
     ),
     GoRoute(
       path: '/product/:id',

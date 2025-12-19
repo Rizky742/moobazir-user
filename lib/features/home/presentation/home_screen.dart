@@ -229,26 +229,31 @@ class _NearestButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 55,
-      decoration: BoxDecoration(
-        color: const Color(0xff4A5D23),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.location_on, color: Colors.white, size: 20),
-          SizedBox(width: 10),
-          Text(
-            "Lihat Produk Surplus Terdekat Melalui Peta",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).go('/find_shop');
+      },
+      child: Container(
+        height: 55,
+        decoration: BoxDecoration(
+          color: const Color(0xff4A5D23),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.location_on, color: Colors.white, size: 20),
+            SizedBox(width: 10),
+            Text(
+              "Lihat Produk Surplus Terdekat Melalui Peta",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
