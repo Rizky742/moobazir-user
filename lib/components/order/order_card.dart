@@ -6,7 +6,7 @@ class OrderCard extends ConsumerWidget {
   final String productName;
   final int quantity;
   final String unit;
-  final int price;
+  // final int price;
   final String shopName;
   final String time;
   final String status;
@@ -17,7 +17,7 @@ class OrderCard extends ConsumerWidget {
     super.key,
     required this.productName,
     required this.quantity,
-    required this.price,
+    // required this.price,
     required this.unit,
     required this.shopName,
     required this.time,
@@ -148,7 +148,7 @@ class OrderCard extends ConsumerWidget {
                     color: getStatusColor(status).withOpacity(0.24) 
                   ),
                   child:  Text(
-                    "Siap Diambil",
+                    status,
                     style: TextStyle(fontSize: 12, color: getStatusColor(status)),
                   ),
                 ),

@@ -9,13 +9,12 @@ class OngoingOrdersPage extends StatelessWidget {
     return ListView(
       children:  [
         OrderCard(
-          productName: "Croissant Coklat",
-          quantity: 2,
-          unit: "packs",
-          price: 16000,
+          productName: "Chicken Bento",
+          quantity: 1,
+          unit: "pack",
           shopName: "Oishii Kitchen",
-          time: "09.45 WIB",
-          status: "Menunggu",
+          time: "19:45 WIB",
+          status: "Siap Diambil",
           onDetailTap: () {
             
           },
@@ -23,11 +22,10 @@ class OngoingOrdersPage extends StatelessWidget {
         ),
         OrderCard(
           productName: "Croissant Coklat",
-          quantity: 2,
-          unit: "packs",
-          price: 16000,
-          shopName: "Oishii Kitchen",
-          time: "09.45 WIB",
+          quantity: 4,
+          unit: "pcs",
+          shopName: "Morning Bakery",
+          time: "20:30 WIB",
           status: "Menunggu",
           onDetailTap: () {
             
@@ -35,12 +33,11 @@ class OngoingOrdersPage extends StatelessWidget {
           onStatusTap: null,
         ),
         OrderCard(
-          productName: "Croissant Coklat",
-          quantity: 2,
-          unit: "packs",
-          price: 16000,
-          shopName: "Oishii Kitchen",
-          time: "09.45 WIB",
+          productName: "Fruit Mix Cup",
+          quantity: 1,
+          unit: "pack",
+          shopName: "Fresh & Go",
+          time: "18:00 WIB",
           status: "Menunggu",
           onDetailTap: () {
             
